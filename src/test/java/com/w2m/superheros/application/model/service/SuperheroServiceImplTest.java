@@ -198,7 +198,7 @@ class SuperheroServiceImplTest {
 	}
 
 	@Test
-	void testRemove() {
+	void remove() {
 		
 		// given
 		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(this.givenSuperman());
@@ -206,14 +206,31 @@ class SuperheroServiceImplTest {
 		
 		
 		// when
-		Superhero superhero = superheroService.remove(givenSuperman().getId());
+		Superhero superhero = this.superheroService.remove(givenSuperman().getId());
 		
 		// expect
 		assertNotNull(superhero);
 	}
+	
+	@Test
+	void remove_non_existing_SuperheroById() {
+		
+		// given
+		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(null);		
+		
+		// when
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+        	this.superheroService.remove(givenSuperman().getId());
+        });
+        
+        //expect
+        String expectedMessage = "superhero not found by requested id";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+	}
 
 	@Test
-	void testAdd() {
+	void add() {
 		fail("Not yet implemented");
 	}
 
