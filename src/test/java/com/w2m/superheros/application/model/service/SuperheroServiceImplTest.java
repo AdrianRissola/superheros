@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
@@ -19,8 +21,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 
 import com.w2m.superheros.application.model.entities.Superhero;
+import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 import com.w2m.superheros.application.ports.out.SuperheroRepository;
 
@@ -52,6 +56,16 @@ class SuperheroServiceImplTest {
 				superheros, 
 				containsInAnyOrder(givenSuperheros.get(0), givenSuperheros.get(1)));
 		
+	}
+	
+	@Test
+	public void findAll_return_empty_list() {
+		
+		when(superheroRepositoryMock.findAll()).thenReturn(new ArrayList<>());
+		
+		List<Superhero> superheros = superheroService.getAll();
+		
+		assertThat(superheros).isEmpty();
 	}
 
 	@Test
@@ -103,7 +117,7 @@ class SuperheroServiceImplTest {
 
 	@Test
 	public void getSuperherosByEmptyName_return_empty_list() {
-		
+		// given
 		String name = "";
 		when(this.superheroRepositoryMock.findByName(name)).thenReturn(new ArrayList<>());
 		
@@ -122,20 +136,66 @@ class SuperheroServiceImplTest {
 
 	@Test
 	void testGetSuperheroById() {
+		
+		// given
 		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(this.givenSuperman());
 		
+		// when
 		Superhero superheros = this.superheroService.getSuperheroById(1);
 		
+		//expect
 		assertThat(superheros.getName()).isEqualTo(this.givenSuperman().getName());
+	}
+	
+	@Test
+	void testGetSuperheroByNonExistingId_throw_exception() {
+		
+		// given
+		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(null);
+			
+		// when
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+        	this.superheroService.getSuperheroById(1);
+        });
+        
+        //expect
+        String expectedMessage = "superhero not found by requested id";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+	}
+	
+	@Test
+	public void updateSuperheroByNonExistingId_throw_exception() {
+
+		// given
+		int nonExistingId = 999;
+		when(this.superheroRepositoryMock.findById(nonExistingId))
+		.thenReturn(null);
+						
+		// when
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+        	this.superheroService.update(givenSuperman());
+        });
+        
+        //expect
+        String expectedMessage = "superhero not found by requested id";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
 	}
 
 	@Test
-	void testUpdate() {
+	void testUpdate_successful() {
+		
+		// given
 		Superhero superman = this.givenSuperman();
+		when(this.superheroRepositoryMock.findById(superman.getId())).thenReturn(superman);
 		when(this.superheroRepositoryMock.update(superman)).thenReturn(superman);
-				
+			
+		// when
 		Superhero supermanUpdated = this.superheroService.update(superman);
 		
+		//expect
 		assertNotNull(supermanUpdated);
 	}
 

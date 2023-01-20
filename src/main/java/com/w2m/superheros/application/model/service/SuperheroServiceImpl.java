@@ -2,7 +2,11 @@ package com.w2m.superheros.application.model.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+
 import com.w2m.superheros.application.model.entities.Superhero;
+import com.w2m.superheros.application.model.exceptions.ErrorMessage;
+import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 import com.w2m.superheros.application.ports.out.SuperheroRepository;
 
@@ -23,11 +27,17 @@ public class SuperheroServiceImpl implements SuperheroService {
 
 	@Override
 	public Superhero getSuperheroById(int id) {
-		return this.superheroRepository.findById(id);
+		Superhero superheroFound = this.superheroRepository.findById(id);
+		if(superheroFound==null) 
+			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
+		return superheroFound;
 	}
 
 	@Override
 	public Superhero update(Superhero superhero) {
+		Superhero superheroFound = this.superheroRepository.findById(superhero.getId());
+		if(superheroFound==null) 
+			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
 		return this.superheroRepository.update(superhero);
 	}
 
