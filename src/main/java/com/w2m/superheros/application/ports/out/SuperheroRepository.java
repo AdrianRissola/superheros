@@ -11,4 +11,6 @@ public interface SuperheroRepository {
 
 	Superhero findById(int id);
 
+	Superhero update(Superhero superhero);
+
 }

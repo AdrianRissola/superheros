@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
@@ -106,7 +107,10 @@ class SuperheroServiceImplTest {
 
 	@Test
 	void testUpdate() {
-		fail("Not yet implemented");
+		when(superheroRepository.update(givenSuperman())).thenReturn(givenSuperman());
+				
+		Superhero superman = superheroService.update(givenSuperman());
+		assertNotNull(superman);
 	}
 
 	@Test
