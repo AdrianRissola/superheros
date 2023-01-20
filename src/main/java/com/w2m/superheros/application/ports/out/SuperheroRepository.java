@@ -14,4 +14,6 @@ public interface SuperheroRepository {
 
 	Superhero update(Superhero superhero);
 
+	Superhero delete(int id);
+
 }

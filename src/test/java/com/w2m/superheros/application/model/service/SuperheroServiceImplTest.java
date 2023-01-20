@@ -21,10 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 
 import com.w2m.superheros.application.model.entities.Superhero;
-import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 import com.w2m.superheros.application.ports.out.SuperheroRepository;
 
@@ -195,13 +193,23 @@ class SuperheroServiceImplTest {
 		// when
 		Superhero supermanUpdated = this.superheroService.update(superman);
 		
-		//expect
+		// expect
 		assertNotNull(supermanUpdated);
 	}
 
 	@Test
 	void testRemove() {
-		fail("Not yet implemented");
+		
+		// given
+		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(this.givenSuperman());
+		when(this.superheroRepositoryMock.delete(givenSuperman().getId())).thenReturn(this.givenSuperman());
+		
+		
+		// when
+		Superhero superhero = superheroService.remove(givenSuperman().getId());
+		
+		// expect
+		assertNotNull(superhero);
 	}
 
 	@Test
