@@ -12,8 +12,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	
 	@Override
 	public List<Superhero> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.superheroRepository.findAll();
 	}
 
 	@Override
