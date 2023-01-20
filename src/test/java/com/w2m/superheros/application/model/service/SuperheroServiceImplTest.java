@@ -3,6 +3,7 @@ package com.w2m.superheros.application.model.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -26,7 +27,7 @@ import com.w2m.superheros.application.ports.out.SuperheroRepository;
 class SuperheroServiceImplTest {
 	
 	@Mock
-    private SuperheroRepository superheroRepository;
+    private SuperheroRepository superheroRepositoryMock;
     
 	@InjectMocks
 	private SuperheroService superheroService =  new SuperheroServiceImpl();
@@ -35,13 +36,30 @@ class SuperheroServiceImplTest {
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 	}
+	
+	@Test
+	void getAll() {
+		
+		// given
+		List<Superhero> givenSuperheros = this.givenSuperheros();
+		when(this.superheroRepositoryMock.findAll()).thenReturn(givenSuperheros);
+		
+		// when
+		List<Superhero> superheros = this.superheroService.getAll();
+		
+		// then
+		MatcherAssert.assertThat(
+				superheros, 
+				containsInAnyOrder(givenSuperheros.get(0), givenSuperheros.get(1)));
+		
+	}
 
 	@Test
 	void testGetSuperherosByName_successful() {
 		
 		// given
 		Superhero batman = this.givenBatman();
-		when(this.superheroRepository.findByName(batman.getName())).thenReturn(Arrays.asList(batman));
+		when(this.superheroRepositoryMock.findByName(batman.getName())).thenReturn(Arrays.asList(batman));
 		
 		// when
 		List<Superhero> superhero = superheroService.getSuperherosByName("Batman");
@@ -56,15 +74,17 @@ class SuperheroServiceImplTest {
 	void testGetSuperherosByNameReturnMultipleSuperheros_successful() {
 		
 		// given
-		Superhero batman = this.givenBatman();
-		Superhero superman = this.givenSuperman();
-		when(this.superheroRepository.findByName("man")).thenReturn(Arrays.asList(batman, superman));
+		List<Superhero> givenSuperheros = this.givenSuperheros();
+		when(this.superheroRepositoryMock.findByName("man")).thenReturn(givenSuperheros);
 		
 		// when
-		List<Superhero> superheros = superheroService.getSuperherosByName("man");
+		List<Superhero> superheros = this.superheroService.getSuperherosByName("man");
 		
 		// then
-		MatcherAssert.assertThat(superheros, containsInAnyOrder(batman, superman));
+		MatcherAssert.assertThat(superheros, hasSize(2));
+		MatcherAssert.assertThat(superheros, 
+				containsInAnyOrder(givenSuperheros.get(0), givenSuperheros.get(1)));
+		
 	}
 	
 	
@@ -76,12 +96,16 @@ class SuperheroServiceImplTest {
 		superman.setRealFullName("Clark Kent");
 		return superman;
 	}
+	
+	private List<Superhero> givenSuperheros() {
+		return Arrays.asList(givenBatman(), this.givenSuperman());
+	}
 
 	@Test
 	public void getSuperherosByEmptyName_return_empty_list() {
 		
 		String name = "";
-		when(this.superheroRepository.findByName(name)).thenReturn(new ArrayList<>());
+		when(this.superheroRepositoryMock.findByName(name)).thenReturn(new ArrayList<>());
 		
 		List<Superhero> superheros = this.superheroService.getSuperherosByName(name);
 		
@@ -98,17 +122,17 @@ class SuperheroServiceImplTest {
 
 	@Test
 	void testGetSuperheroById() {
-		when(this.superheroRepository.findById(givenSuperman().getId())).thenReturn(givenSuperman());
+		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(this.givenSuperman());
 		
 		Superhero superheros = this.superheroService.getSuperheroById(1);
 		
-		assertThat(superheros.getName()).isEqualTo(givenSuperman().getName());
+		assertThat(superheros.getName()).isEqualTo(this.givenSuperman().getName());
 	}
 
 	@Test
 	void testUpdate() {
-		Superhero superman = givenSuperman();
-		when(this.superheroRepository.update(superman)).thenReturn(superman);
+		Superhero superman = this.givenSuperman();
+		when(this.superheroRepositoryMock.update(superman)).thenReturn(superman);
 				
 		Superhero supermanUpdated = this.superheroService.update(superman);
 		

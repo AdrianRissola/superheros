@@ -6,6 +6,7 @@ import com.w2m.superheros.application.model.entities.Superhero;
 
 public interface SuperheroRepository {
 	
+	List<Superhero> findAll();
 	
 	List<Superhero> findByName(String name);
 

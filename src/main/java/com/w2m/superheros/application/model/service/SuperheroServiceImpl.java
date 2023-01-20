@@ -9,6 +9,12 @@ import com.w2m.superheros.application.ports.out.SuperheroRepository;
 public class SuperheroServiceImpl implements SuperheroService {
 	
 	private SuperheroRepository superheroRepository;
+	
+	@Override
+	public List<Superhero> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public List<Superhero> getSuperherosByName(String name) {
@@ -35,5 +41,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	public Superhero add(Superhero superhero) {
 		return null;
 	}
+
+
 
 }

@@ -6,6 +6,8 @@ import com.w2m.superheros.application.model.entities.Superhero;
 
 public interface SuperheroService {
 
+	List<Superhero> getAll();
+	
 	List<Superhero> getSuperherosByName(String name);
 
 	Superhero getSuperheroById(int id);
