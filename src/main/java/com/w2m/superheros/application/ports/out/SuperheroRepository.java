@@ -9,4 +9,6 @@ public interface SuperheroRepository {
 	
 	List<Superhero> findByName(String name);
 
+	Superhero findById(int id);
+
 }
