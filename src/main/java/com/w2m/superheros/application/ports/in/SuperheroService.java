@@ -8,13 +8,13 @@ public interface SuperheroService {
 
 	List<Superhero> getAll();
 	
-	List<Superhero> getSuperherosByName(String name);
+	List<Superhero> getByNameContains(String param);
 
 	Superhero getSuperheroById(int id);
 
 	Superhero update(Superhero superhero);
 
-	Superhero remove(int id);
+	Superhero removeById(int id);
 
 	Superhero add(Superhero superhero);
 

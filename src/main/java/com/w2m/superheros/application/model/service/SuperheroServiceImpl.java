@@ -42,7 +42,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	}
 
 	@Override
-	public Superhero remove(int id) {
+	public Superhero removeById(int id) {
 		Superhero superheroFound = getSuperheroById(id);
 		if(superheroFound==null) 
 			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);

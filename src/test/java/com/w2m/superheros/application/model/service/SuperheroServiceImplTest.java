@@ -8,7 +8,6 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -71,10 +70,10 @@ class SuperheroServiceImplTest {
 		
 		// given
 		Superhero batman = this.givenBatman();
-		when(this.superheroRepositoryMock.findByName(batman.getName())).thenReturn(Arrays.asList(batman));
+		when(this.superheroRepositoryMock.findByNameContains(batman.getName())).thenReturn(Arrays.asList(batman));
 		
 		// when
-		List<Superhero> superhero = superheroService.getSuperherosByName("Batman");
+		List<Superhero> superhero = superheroService.getByNameContains("Batman");
 		
 		// then
 		MatcherAssert.assertThat(
@@ -87,10 +86,10 @@ class SuperheroServiceImplTest {
 		
 		// given
 		List<Superhero> givenSuperheros = this.givenSuperheros();
-		when(this.superheroRepositoryMock.findByName("man")).thenReturn(givenSuperheros);
+		when(this.superheroRepositoryMock.findByNameContains("man")).thenReturn(givenSuperheros);
 		
 		// when
-		List<Superhero> superheros = this.superheroService.getSuperherosByName("man");
+		List<Superhero> superheros = this.superheroService.getByNameContains("man");
 		
 		// then
 		MatcherAssert.assertThat(superheros, hasSize(2));
@@ -117,9 +116,9 @@ class SuperheroServiceImplTest {
 	public void getSuperherosByEmptyName_return_empty_list() {
 		// given
 		String name = "";
-		when(this.superheroRepositoryMock.findByName(name)).thenReturn(new ArrayList<>());
+		when(this.superheroRepositoryMock.findByNameContains(name)).thenReturn(new ArrayList<>());
 		
-		List<Superhero> superheros = this.superheroService.getSuperherosByName(name);
+		List<Superhero> superheros = this.superheroService.getByNameContains(name);
 		
 		assertThat(superheros).isEmpty();
 	}
@@ -202,11 +201,11 @@ class SuperheroServiceImplTest {
 		
 		// given
 		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(this.givenSuperman());
-		when(this.superheroRepositoryMock.delete(givenSuperman().getId())).thenReturn(this.givenSuperman());
+		when(this.superheroRepositoryMock.deleteById(givenSuperman().getId())).thenReturn(this.givenSuperman());
 		
 		
 		// when
-		Superhero superhero = this.superheroService.remove(givenSuperman().getId());
+		Superhero superhero = this.superheroService.removeById(givenSuperman().getId());
 		
 		// expect
 		assertNotNull(superhero);
@@ -220,18 +219,13 @@ class SuperheroServiceImplTest {
 		
 		// when
         Exception exception = assertThrows(RuntimeException.class, () -> {
-        	this.superheroService.remove(givenSuperman().getId());
+        	this.superheroService.removeById(givenSuperman().getId());
         });
         
         //expect
         String expectedMessage = "superhero not found by requested id";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
-	}
-
-	@Test
-	void add() {
-		fail("Not yet implemented");
 	}
 
 }

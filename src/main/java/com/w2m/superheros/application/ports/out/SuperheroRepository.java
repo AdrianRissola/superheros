@@ -8,12 +8,12 @@ public interface SuperheroRepository {
 	
 	List<Superhero> findAll();
 	
-	List<Superhero> findByName(String name);
+	List<Superhero> findByNameContains(String param);
 
 	Superhero findById(int id);
 
 	Superhero update(Superhero superhero);
 
-	Superhero delete(int id);
+	Superhero deleteById(int id);
 
 }
