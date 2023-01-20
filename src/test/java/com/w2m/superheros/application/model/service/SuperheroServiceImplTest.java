@@ -98,19 +98,21 @@ class SuperheroServiceImplTest {
 
 	@Test
 	void testGetSuperheroById() {
-		when(superheroRepository.findById(givenSuperman().getId())).thenReturn(givenSuperman());
+		when(this.superheroRepository.findById(givenSuperman().getId())).thenReturn(givenSuperman());
 		
-		Superhero superheros = superheroService.getSuperheroById(1);
+		Superhero superheros = this.superheroService.getSuperheroById(1);
 		
 		assertThat(superheros.getName()).isEqualTo(givenSuperman().getName());
 	}
 
 	@Test
 	void testUpdate() {
-		when(superheroRepository.update(givenSuperman())).thenReturn(givenSuperman());
+		Superhero superman = givenSuperman();
+		when(this.superheroRepository.update(superman)).thenReturn(superman);
 				
-		Superhero superman = superheroService.update(givenSuperman());
-		assertNotNull(superman);
+		Superhero supermanUpdated = this.superheroService.update(superman);
+		
+		assertNotNull(supermanUpdated);
 	}
 
 	@Test

@@ -23,7 +23,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 
 	@Override
 	public Superhero update(Superhero superhero) {
-		return null;
+		return this.superheroRepository.update(superhero);
 	}
 
 	@Override
