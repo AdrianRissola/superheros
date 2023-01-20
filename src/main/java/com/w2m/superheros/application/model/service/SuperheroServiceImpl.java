@@ -18,7 +18,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 
 	@Override
 	public Superhero getSuperheroById(int id) {
-		return null;
+		return this.superheroRepository.findById(id);
 	}
 
 	@Override
