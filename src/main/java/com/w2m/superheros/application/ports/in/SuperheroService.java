@@ -16,6 +16,4 @@ public interface SuperheroService {
 
 	Superhero removeById(int id);
 
-	Superhero add(Superhero superhero);
-
 }

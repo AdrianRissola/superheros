@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,6 +39,7 @@ class SuperheroServiceImplTest {
 		MockitoAnnotations.openMocks(this);
 	}
 	
+	
 	@Test
 	void getAll() {
 		
@@ -55,8 +57,9 @@ class SuperheroServiceImplTest {
 		
 	}
 	
+	
 	@Test
-	public void findAll_return_empty_list() {
+	public void getAll_return_empty_list() {
 		
 		when(superheroRepositoryMock.findAll()).thenReturn(new ArrayList<>());
 		
@@ -65,8 +68,9 @@ class SuperheroServiceImplTest {
 		assertThat(superheros).isEmpty();
 	}
 
+	
 	@Test
-	void testGetSuperherosByName_successful() {
+	void getSuperherosByName_successful() {
 		
 		// given
 		Superhero batman = this.givenBatman();
@@ -81,8 +85,9 @@ class SuperheroServiceImplTest {
 				containsInAnyOrder(hasProperty("name", is(batman.getName()))));
 	}
 	
+	
 	@Test
-	void testGetSuperherosByNameReturnMultipleSuperheros_successful() {
+	void getSuperherosByNameReturnMultipleSuperheros_successful() {
 		
 		// given
 		List<Superhero> givenSuperheros = this.givenSuperheros();
@@ -97,21 +102,8 @@ class SuperheroServiceImplTest {
 				containsInAnyOrder(givenSuperheros.get(0), givenSuperheros.get(1)));
 		
 	}
-	
-	
-	private Superhero givenSuperman() {
-		Superhero superman = new Superhero();
-		superman.setId(1);
-		superman.setHumanBeing(false);
-		superman.setName("Superman");
-		superman.setRealFullName("Clark Kent");
-		return superman;
-	}
-	
-	private List<Superhero> givenSuperheros() {
-		return Arrays.asList(givenBatman(), this.givenSuperman());
-	}
 
+	
 	@Test
 	public void getSuperherosByEmptyName_return_empty_list() {
 		// given
@@ -123,16 +115,9 @@ class SuperheroServiceImplTest {
 		assertThat(superheros).isEmpty();
 	}
 
-	private Superhero givenBatman() {
-		Superhero batman = new Superhero();
-		batman.setHumanBeing(true);
-		batman.setName("Batman");
-		batman.setRealFullName("Bruce Wayne");
-		return batman;
-	}
 
 	@Test
-	void testGetSuperheroById() {
+	void getSuperheroById() {
 		
 		// given
 		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(this.givenSuperman());
@@ -145,7 +130,7 @@ class SuperheroServiceImplTest {
 	}
 	
 	@Test
-	void testGetSuperheroByNonExistingId_throw_exception() {
+	void getSuperheroByNonExistingId_throw_exception() {
 		
 		// given
 		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(null);
@@ -182,27 +167,30 @@ class SuperheroServiceImplTest {
 	}
 
 	@Test
-	void testUpdate_successful() {
+	void update_successful() {
 		
 		// given
-		Superhero superman = this.givenSuperman();
-		when(this.superheroRepositoryMock.findById(superman.getId())).thenReturn(superman);
-		when(this.superheroRepositoryMock.update(superman)).thenReturn(superman);
+		when(this.superheroRepositoryMock.findById(1)).thenReturn(this.givenSuperman());
+		
+		Superhero supermanRequest = this.givenSuperman();
+		supermanRequest.setId(1);
+		supermanRequest.setRealFullName("Juan Perez");
+		when(this.superheroRepositoryMock.update(supermanRequest)).thenReturn(supermanRequest);
 			
 		// when
-		Superhero supermanUpdated = this.superheroService.update(superman);
+		Superhero supermanUpdated = this.superheroService.update(supermanRequest);
 		
 		// expect
 		assertNotNull(supermanUpdated);
+		assertEquals(supermanRequest.getRealFullName(), supermanUpdated.getRealFullName());
 	}
 
 	@Test
-	void remove() {
+	void remove_successful() {
 		
 		// given
 		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(this.givenSuperman());
 		when(this.superheroRepositoryMock.deleteById(givenSuperman().getId())).thenReturn(this.givenSuperman());
-		
 		
 		// when
 		Superhero superhero = this.superheroService.removeById(givenSuperman().getId());
@@ -212,7 +200,7 @@ class SuperheroServiceImplTest {
 	}
 	
 	@Test
-	void remove_non_existing_SuperheroById() {
+	void remove_non_existing_superheroById_throws_exception() {
 		
 		// given
 		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(null);		
@@ -226,6 +214,28 @@ class SuperheroServiceImplTest {
         String expectedMessage = "superhero not found by requested id";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
+	}
+	
+	
+	private Superhero givenSuperman() {
+		Superhero superman = new Superhero();
+		superman.setId(1);
+		superman.setHumanBeing(false);
+		superman.setName("Superman");
+		superman.setRealFullName("Clark Kent");
+		return superman;
+	}
+	
+	private Superhero givenBatman() {
+		Superhero batman = new Superhero();
+		batman.setHumanBeing(true);
+		batman.setName("Batman");
+		batman.setRealFullName("Bruce Wayne");
+		return batman;
+	}
+	
+	private List<Superhero> givenSuperheros() {
+		return Arrays.asList(givenBatman(), this.givenSuperman());
 	}
 
 }

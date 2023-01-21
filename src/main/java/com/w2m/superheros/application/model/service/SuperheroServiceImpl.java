@@ -49,11 +49,6 @@ public class SuperheroServiceImpl implements SuperheroService {
 		return this.superheroRepository.deleteById(id);
 	}
 
-	@Override
-	public Superhero add(Superhero superhero) {
-		return null;
-	}
-
 
 
 }
