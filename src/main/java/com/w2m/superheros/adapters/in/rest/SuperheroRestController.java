@@ -25,4 +25,5 @@ public class SuperheroRestController {
 	public List<Superhero> getAll() {
 		return this.superheroService.getAll();
 	}
+	
 }

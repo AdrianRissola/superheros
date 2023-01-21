@@ -50,7 +50,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 		Superhero superheroFound = getSuperheroById(id);
 		if(superheroFound==null) 
 			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
-		return this.superheroRepository.deleteById(id);
+		return this.superheroRepository.delete(superheroFound);
 	}
 
 

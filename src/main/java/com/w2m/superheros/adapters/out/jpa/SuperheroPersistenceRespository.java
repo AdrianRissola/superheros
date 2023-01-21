@@ -23,26 +23,26 @@ public class SuperheroPersistenceRespository implements SuperheroRepository {
 
 	@Override
 	public List<Superhero> findByNameContains(String param) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SuperheroJpaEntity> superheros = this.superheroJpaRepository.findByNameContainingIgnoreCase(param.strip());
+		return JpaEntityMapper.fromSuperheroJpaEntities(superheros);
 	}
 
 	@Override
 	public Superhero findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		SuperheroJpaEntity superheroJpaEntity = this.superheroJpaRepository.findById(id).get();
+		return JpaEntityMapper.fromJpaEntity(superheroJpaEntity);
 	}
 
 	@Override
 	public Superhero update(Superhero superhero) {
-		// TODO Auto-generated method stub
-		return null;
+		SuperheroJpaEntity superheroJpaEntity = this.superheroJpaRepository.save(JpaEntityMapper.toJpaEntity(superhero));
+		return JpaEntityMapper.fromJpaEntity(superheroJpaEntity);
 	}
 
 	@Override
-	public Superhero deleteById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Superhero delete(Superhero superhero) {
+		this.superheroJpaRepository.delete(JpaEntityMapper.toJpaEntity(superhero));
+		return superhero;
 	}
 
 }

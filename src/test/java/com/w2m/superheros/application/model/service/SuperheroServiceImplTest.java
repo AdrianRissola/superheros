@@ -189,11 +189,12 @@ class SuperheroServiceImplTest {
 	void remove_successful() {
 		
 		// given
-		when(this.superheroRepositoryMock.findById(givenSuperman().getId())).thenReturn(this.givenSuperman());
-		when(this.superheroRepositoryMock.deleteById(givenSuperman().getId())).thenReturn(this.givenSuperman());
+		Superhero givenSuperman = this.givenSuperman();
+		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(givenSuperman);
+		when(this.superheroRepositoryMock.delete(givenSuperman)).thenReturn(this.givenSuperman());
 		
 		// when
-		Superhero superhero = this.superheroService.removeById(givenSuperman().getId());
+		Superhero superhero = this.superheroService.removeById(givenSuperman.getId());
 		
 		// expect
 		assertNotNull(superhero);
