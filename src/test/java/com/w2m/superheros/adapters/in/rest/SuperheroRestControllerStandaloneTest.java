@@ -11,35 +11,32 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.w2m.superheros.application.model.entities.Superhero;
+import com.w2m.superheros.application.model.service.SuperheroServiceImpl;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 
-@AutoConfigureMockMvc
-@SpringBootTest
-class SuperheroRestControllerTest {
+
+class SuperheroRestControllerStandaloneTest {
 	
-	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
-	private SuperheroService superheroService;
+	@Mock
+	private SuperheroService superheroService =  new SuperheroServiceImpl();
 	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+	@InjectMocks
+	private SuperheroRestController superheroRestController;
 
 	@BeforeEach
 	public void setup() {
-	    //Init MockMvc Object and build
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+		MockitoAnnotations.openMocks(this);
+		this.mockMvc = MockMvcBuilders.standaloneSetup(superheroRestController).build();
 	}
 
 	@Test
