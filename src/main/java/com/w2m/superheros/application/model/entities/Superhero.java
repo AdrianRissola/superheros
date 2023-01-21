@@ -3,15 +3,21 @@ package com.w2m.superheros.application.model.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 public class Superhero {
 
 	private int id;
 	
+	@NotBlank(message = "name is required")
 	private String name;
 	
+	@NotBlank(message = "realFullName is required")
 	private String realFullName;
 	
+	@NotNull(message = "'humanBeing' boolean field is required, allowed input: 'true' or f'alse'")
 	private boolean isHumanBeing;
 	
 	private List<Power> powers = new ArrayList<Power>();

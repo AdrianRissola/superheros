@@ -2,6 +2,8 @@ package com.w2m.superheros.adapters.in.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,7 +51,7 @@ public class SuperheroRestController {
      */
 	@PutMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Superhero updateSuperhero(@PathVariable int id, @RequestBody Superhero superhero){
+	public Superhero update(@PathVariable int id, @Valid @RequestBody Superhero superhero){
 		superhero.setId(id);
 		return this.superheroService.update(superhero);
 	}
