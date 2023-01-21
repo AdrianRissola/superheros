@@ -3,8 +3,14 @@ package com.w2m.superheros.adapters.out.jpa.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class SuperheroJpaEntity {
 
+	@Id
 	private int id;
 	
 	private String name;
@@ -13,6 +19,7 @@ public class SuperheroJpaEntity {
 	
 	private boolean isHumanBeing;
 	
+	@OneToMany
 	private List<PowerJpaEntity> powers = new ArrayList<PowerJpaEntity>();
 	
 

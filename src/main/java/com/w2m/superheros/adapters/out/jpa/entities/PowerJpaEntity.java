@@ -1,7 +1,13 @@
 package com.w2m.superheros.adapters.out.jpa.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class PowerJpaEntity {
 	
+	@Id
 	private int id;
 	
 	private String name;
@@ -9,9 +15,10 @@ public class PowerJpaEntity {
 	private int intensity;
 	
 	private boolean isEnabled;
-	
 
+	@ManyToOne
     private SuperheroJpaEntity superhero;
+    
 
 	public int getId() {
 		return id;
