@@ -11,32 +11,30 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.w2m.superheros.application.model.entities.Superhero;
-import com.w2m.superheros.application.model.service.SuperheroServiceImpl;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 
-
+@SpringBootTest
 class SuperheroRestControllerTest {
 	
 	private MockMvc mockMvc;
 	
-	@Mock
-	private SuperheroService superheroService =  new SuperheroServiceImpl();
+	@MockBean
+	private SuperheroService superheroService;
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 
 	@BeforeEach
 	public void setup() {
-		MockitoAnnotations.openMocks(this);
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 	}
 

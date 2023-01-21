@@ -2,12 +2,17 @@ package com.w2m.superheros.adapters.out.jpa;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.w2m.superheros.adapters.out.jpa.entities.SuperheroJpaEntity;
 import com.w2m.superheros.application.model.entities.Superhero;
 import com.w2m.superheros.application.ports.out.SuperheroRepository;
 
+@Service("superheroPersistenceRespository")
 public class SuperheroPersistenceRespository implements SuperheroRepository {
 	
+	@Autowired
 	private SuperheroJpaRepository superheroJpaRepository;
 
 	@Override
