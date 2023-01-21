@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,12 +23,13 @@ public class SuperheroRestController {
 	private SuperheroService superheroService;
 	
 	/**
+     * @param name: superhero name
      * @return List<Superhero>
      */
 	@GetMapping("/superheros")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Superhero> getAll() {
-		return this.superheroService.getAll();
+	public List<Superhero> getSuperherosByName(@RequestParam(required = false) String name){
+		return (name==null) ? this.superheroService.getAll() : this.superheroService.getByNameContains(name);
 	}
 	
 	/**
