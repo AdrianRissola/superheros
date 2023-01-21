@@ -30,7 +30,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	}
 
 	@Override
-	public Superhero getSuperheroById(int id) {
+	public Superhero getById(int id) {
 		Superhero superheroFound = this.superheroRepository.findById(id);
 		if(superheroFound==null) 
 			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
@@ -47,7 +47,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 
 	@Override
 	public Superhero removeById(int id) {
-		Superhero superheroFound = getSuperheroById(id);
+		Superhero superheroFound = getById(id);
 		if(superheroFound==null) 
 			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
 		return this.superheroRepository.delete(superheroFound);

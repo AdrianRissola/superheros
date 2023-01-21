@@ -10,7 +10,7 @@ public interface SuperheroService {
 	
 	List<Superhero> getByNameContains(String param);
 
-	Superhero getSuperheroById(int id);
+	Superhero getById(int id);
 
 	Superhero update(Superhero superhero);
 

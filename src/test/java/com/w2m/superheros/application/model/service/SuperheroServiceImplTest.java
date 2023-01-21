@@ -123,7 +123,7 @@ class SuperheroServiceImplTest {
 		when(this.superheroRepositoryMock.findById(this.givenSuperman().getId())).thenReturn(this.givenSuperman());
 		
 		// when
-		Superhero superheros = this.superheroService.getSuperheroById(1);
+		Superhero superheros = this.superheroService.getById(1);
 		
 		//expect
 		assertThat(superheros.getName()).isEqualTo(this.givenSuperman().getName());
@@ -137,7 +137,7 @@ class SuperheroServiceImplTest {
 			
 		// when
         Exception exception = assertThrows(RuntimeException.class, () -> {
-        	this.superheroService.getSuperheroById(1);
+        	this.superheroService.getById(1);
         });
         
         //expect

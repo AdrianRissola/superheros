@@ -1,5 +1,6 @@
 package com.w2m.superheros.adapters.in.rest;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -14,12 +15,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.w2m.superheros.application.model.entities.Superhero;
+import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 
 @SpringBootTest
@@ -39,7 +42,7 @@ class SuperheroRestControllerTest {
 	}
 
 	@Test
-	void getAll() throws Exception {
+	void getAll_return_200() throws Exception {
 		
 		when(this.superheroService.getAll()).thenReturn(this.givenSuperheros());
 		
@@ -48,6 +51,28 @@ class SuperheroRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", Is.is(this.givenSuperheros().get(0).getName())))
                 .andExpect(jsonPath("$[1].name", Is.is(this.givenSuperheros().get(1).getName())));
+	}
+	
+	@Test
+	public void getById_return_200() throws Exception {
+		
+		when(this.superheroService.getById(this.givenSuperman().getId())).thenReturn(this.givenSuperman());
+		
+		this.mockMvc.perform(get("/superheros/{id}", this.givenSuperman().getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", Is.is(this.givenSuperman().getName())));		
+	}
+	
+	@Test
+	public void getSuperherosById_return_404() throws Exception {
+		
+		when(this.superheroService.getById(any(Integer.class)))
+		.thenThrow(new SuperheroException(HttpStatus.NOT_FOUND.getReasonPhrase(), HttpStatus.NOT_FOUND));
+		
+		this.mockMvc.perform(get("/superheros/{id}", 9999)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 	}
 	
 	
@@ -62,6 +87,7 @@ class SuperheroRestControllerTest {
 	
 	private Superhero givenBatman() {
 		Superhero batman = new Superhero();
+		batman.setId(2);
 		batman.setHumanBeing(true);
 		batman.setName("Batman");
 		batman.setRealFullName("Bruce Wayne");
