@@ -29,7 +29,7 @@ public class SuperheroPersistenceRespository implements SuperheroRepository {
 
 	@Override
 	public Superhero findById(int id) {
-		SuperheroJpaEntity superheroJpaEntity = this.superheroJpaRepository.findById(id).get();
+		SuperheroJpaEntity superheroJpaEntity = this.superheroJpaRepository.findById(id).orElse(null);
 		return JpaEntityMapper.fromJpaEntity(superheroJpaEntity);
 	}
 

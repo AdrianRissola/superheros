@@ -26,6 +26,8 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Override
 	public List<Superhero> getByNameContains(String name) {
 		List<Superhero> superheros = this.superheroRepository.findByNameContains(name.strip());
+		if(superheros==null || superheros.isEmpty()) 
+			throw new SuperheroException(ErrorMessage.SUPERHEROS_NOT_FOUND_BY_NAME, HttpStatus.NOT_FOUND);
 		return superheros;
 	}
 

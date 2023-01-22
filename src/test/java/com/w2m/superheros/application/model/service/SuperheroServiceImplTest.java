@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.w2m.superheros.application.model.entities.Superhero;
+import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 import com.w2m.superheros.application.ports.out.SuperheroRepository;
 
@@ -105,14 +106,20 @@ class SuperheroServiceImplTest {
 
 	
 	@Test
-	public void getSuperherosByEmptyName_return_empty_list() {
+	public void getSuperherosByEmptyName_throws_SuperheroException() {
 		// given
 		String name = "";
 		when(this.superheroRepositoryMock.findByNameContains(name)).thenReturn(new ArrayList<>());
 		
-		List<Superhero> superheros = this.superheroService.getByNameContains(name);
-		
-		assertThat(superheros).isEmpty();
+		// when
+		SuperheroException exception = assertThrows(SuperheroException.class, () -> {
+        	this.superheroService.getByNameContains(name);
+        });
+
+        //expect
+        String expectedMessage = "superheros not found by requested name";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
 	}
 
 

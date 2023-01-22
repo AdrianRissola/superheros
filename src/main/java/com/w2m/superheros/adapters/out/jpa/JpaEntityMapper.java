@@ -21,9 +21,12 @@ public class JpaEntityMapper {
 	}
 
 	public static Superhero fromJpaEntity(SuperheroJpaEntity superheroJpaEntity) {
-		Superhero superhero = new Superhero();
-		BeanUtils.copyProperties(superheroJpaEntity, superhero);
-		superhero.setPowers(fromPowerJpaEntities(superheroJpaEntity.getPowers()));
+		Superhero superhero = null;
+		if(superheroJpaEntity!=null) {
+			superhero = new Superhero();
+			BeanUtils.copyProperties(superheroJpaEntity, superhero);
+			superhero.setPowers(fromPowerJpaEntities(superheroJpaEntity.getPowers()));
+		}
 		return superhero;
 	}
 
