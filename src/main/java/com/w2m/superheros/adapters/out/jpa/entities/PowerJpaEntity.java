@@ -1,6 +1,8 @@
 package com.w2m.superheros.adapters.out.jpa.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -8,6 +10,7 @@ import javax.persistence.ManyToOne;
 public class PowerJpaEntity {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String name;
@@ -19,6 +22,14 @@ public class PowerJpaEntity {
 	@ManyToOne
     private SuperheroJpaEntity superhero;
     
+	public PowerJpaEntity() {
+	}
+
+	public PowerJpaEntity(String name, int intensity, boolean isEnabled) {
+		this.setName(name);
+		this.setIntensity(intensity);
+		this.setEnabled(isEnabled);
+	}
 
 	public int getId() {
 		return id;

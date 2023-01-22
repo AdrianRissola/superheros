@@ -3,7 +3,11 @@ package com.w2m.superheros.adapters.out.jpa.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -11,6 +15,7 @@ import javax.persistence.OneToMany;
 public class SuperheroJpaEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String name;
@@ -19,9 +24,17 @@ public class SuperheroJpaEntity {
 	
 	private boolean isHumanBeing;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="superhero", orphanRemoval = true)
 	private List<PowerJpaEntity> powers = new ArrayList<PowerJpaEntity>();
 	
+	public SuperheroJpaEntity(){
+	}
+	
+	public SuperheroJpaEntity(String name, String realFullName, boolean isHumanBeing){
+		this.setName(name);
+		this.setRealFullName(realFullName);
+		this.setHumanBeing(isHumanBeing);
+	}
 
 	public int getId() {
 		return id;
