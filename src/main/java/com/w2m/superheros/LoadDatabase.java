@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.w2m.superheros.adapters.out.jpa.SuperheroJpaRepository;
 import com.w2m.superheros.adapters.out.jpa.entities.PowerJpaEntity;
@@ -15,6 +16,7 @@ import com.w2m.superheros.adapters.out.jpa.entities.SuperheroJpaEntity;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 
 @Configuration
+@Profile({ "prod" })
 public class LoadDatabase {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoadDatabase.class);

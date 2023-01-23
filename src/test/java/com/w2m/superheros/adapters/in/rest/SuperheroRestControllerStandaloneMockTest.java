@@ -23,7 +23,7 @@ import com.w2m.superheros.application.model.service.SuperheroServiceImpl;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 
 
-class SuperheroRestControllerStandaloneTest {
+class SuperheroRestControllerStandaloneMockTest {
 	
 	private MockMvc mockMvc;
 	

@@ -11,16 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hamcrest.core.Is;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.w2m.superheros.application.model.entities.Superhero;
@@ -28,20 +26,14 @@ import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 
 @SpringBootTest
-class SuperheroRestControllerTest {
+@AutoConfigureMockMvc
+class SuperheroRestControllerMockTest {
 	
+	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
 	private SuperheroService superheroService;
-	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
-
-	@BeforeEach
-	public void setup() {
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-	}
 
 	@Test
 	void getAll_return_200() throws Exception {
