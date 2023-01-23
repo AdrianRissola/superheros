@@ -19,6 +19,11 @@ import com.w2m.superheros.application.model.entities.Superhero;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 import com.w2m.superheros.timetraceable.TimeTraceable;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 public class SuperheroRestController {
 
@@ -29,10 +34,21 @@ public class SuperheroRestController {
      * @param name: superhero name
      * @return List<Superhero>
      */
+    @ApiOperation(value = "Get superheros", notes = "This method find superheros")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@GetMapping("/superheros")
 	@ResponseStatus(HttpStatus.OK)
 	@TimeTraceable
-	public List<Superhero> getSuperheros(@RequestParam(required = false) String name){
+	public List<Superhero> getSuperheros(
+			@ApiParam(
+					name =  "name",
+					type = "String",
+    			    value = "superhero name",
+    			    example = "superman",
+    			    required = false)
+			@RequestParam(required = false) String name){
 		return (name==null) ? this.superheroService.getAll() : this.superheroService.getByNameContains(name);
 	}
 	
@@ -40,10 +56,22 @@ public class SuperheroRestController {
      * @param id: superhero id
      * @return Superhero
      */
+    @ApiOperation(value = "Get superhero by id", notes = "This method finds a superhero by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "superhero not found by requested id"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@GetMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@TimeTraceable
-	public Superhero getSuperheroById(@PathVariable int id){
+	public Superhero getSuperheroById(
+			@ApiParam(
+					name =  "id",
+					type = "int",
+    			    value = "superhero id",
+    			    example = "1",
+    			    required = true)
+			@PathVariable int id){
 		return this.superheroService.getById(id);
 	}
 	
@@ -52,10 +80,28 @@ public class SuperheroRestController {
      * @param superhero: superhero
      * @return Superhero
      */
+    @ApiOperation(value = "Update superhero by id", notes = "This method updates a superhero by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "superhero not found by requested id"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@PutMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@TimeTraceable
-	public Superhero update(@PathVariable int id, @Valid @RequestBody Superhero superhero){
+	public Superhero update(
+			@ApiParam(
+					name =  "id",
+					type = "int",
+    			    value = "superhero id",
+    			    example = "1",
+    			    required = true)
+			@PathVariable int id,
+			@ApiParam(
+					name =  "superhero",
+					type = "SuperheroDto",
+    			    value = "superhero",
+    			    required = true)
+			@Valid @RequestBody Superhero superhero){
 		superhero.setId(id);
 		return this.superheroService.update(superhero);
 	}
@@ -64,10 +110,22 @@ public class SuperheroRestController {
      * @param id: superhero id
      * @return Superhero
      */
+    @ApiOperation(value = "Remove superhero by id", notes = "This method removes a superhero by id")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "superhero not found by requested id"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
 	@DeleteMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@TimeTraceable
-	public Superhero removeSuperhero(@PathVariable int id){
+	public Superhero removeSuperhero(
+			@ApiParam(
+					name =  "id",
+					type = "int",
+    			    value = "superhero id",
+    			    example = "1",
+    			    required = true)
+			@PathVariable int id){
 		return this.superheroService.removeById(id);
 	}
 }
