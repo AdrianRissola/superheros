@@ -23,7 +23,6 @@ public class LoadTestingDatabase {
 	
 	@Bean
 	CommandLineRunner initTestingDatabase(SuperheroService service, SuperheroJpaRepository superheroRepository) {
-		logger.info("alksdfjasdfkjasdfkjadsfkjas");
 		PowerJpaEntity nightVision = new PowerJpaEntity("Night-Vision", 50, true);
 		PowerJpaEntity webSlinging = new PowerJpaEntity("Web-Slinging", 50, true);
 		SuperheroJpaEntity spiderman = new SuperheroJpaEntity("Spiderman", "Peter Parker", true);
@@ -33,7 +32,6 @@ public class LoadTestingDatabase {
 		spidermanPowers.add(nightVision);
 		spidermanPowers.add(webSlinging);
 		spiderman.setPowers(spidermanPowers);
-		logger.info("alksdfjasdfkjasdfkjadsfkjas");
 		return args -> {
 			logger.info("Preloading tsting database with: {}", superheroRepository.save(spiderman));
 		};
