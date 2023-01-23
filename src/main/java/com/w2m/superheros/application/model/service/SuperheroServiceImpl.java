@@ -13,6 +13,7 @@ import com.w2m.superheros.application.model.exceptions.ErrorMessage;
 import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
 import com.w2m.superheros.application.ports.out.SuperheroRepository;
+import com.w2m.superheros.helper.Utils;
 
 @Service("superheroService")
 public class SuperheroServiceImpl implements SuperheroService {
@@ -30,16 +31,16 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Override
 	public List<Superhero> getByNameContains(String name) {
 		List<Superhero> superheros = this.superheroRepository.findByNameContains(name.strip());
-		if(superheros==null || superheros.isEmpty()) 
-			throw new SuperheroException(ErrorMessage.SUPERHEROS_NOT_FOUND_BY_NAME, HttpStatus.NOT_FOUND);
+		Utils.validateIsNullOrEmpty(superheros,
+				new SuperheroException(ErrorMessage.SUPERHEROS_NOT_FOUND_BY_NAME, HttpStatus.NOT_FOUND));
 		return superheros;
 	}
 
 	@Override
 	public Superhero getById(int id) {
 		Superhero superheroFound = this.superheroRepository.findById(id);
-		if(superheroFound==null) 
-			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
+		Utils.validateIsNull(superheroFound,
+				new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND));
 		return superheroFound;
 	}
 
@@ -47,8 +48,8 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Override
 	public Superhero update(Superhero superhero) {
 		Superhero superheroFound = this.superheroRepository.findById(superhero.getId());
-		if(superheroFound==null) 
-			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
+		Utils.validateIsNull(superheroFound,
+				new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND));
 		return this.superheroRepository.update(superhero);
 	}
 
@@ -56,8 +57,8 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Override
 	public Superhero removeById(int id) {
 		Superhero superheroFound = getById(id);
-		if(superheroFound==null) 
-			throw new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND);
+		Utils.validateIsNull(superheroFound,
+				new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND));
 		return this.superheroRepository.delete(superheroFound);
 	}
 
