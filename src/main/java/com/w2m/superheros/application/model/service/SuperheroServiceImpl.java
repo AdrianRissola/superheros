@@ -3,6 +3,8 @@ package com.w2m.superheros.application.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,13 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Autowired
 	private SuperheroRepository superheroRepository;
 	
+	@Cacheable(value = "superheros")
 	@Override
 	public List<Superhero> getAll() {
 		return this.superheroRepository.findAll();
 	}
 
+	@Cacheable(value = "superheros")
 	@Override
 	public List<Superhero> getByNameContains(String name) {
 		List<Superhero> superheros = this.superheroRepository.findByNameContains(name.strip());
@@ -39,6 +43,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 		return superheroFound;
 	}
 
+	@CacheEvict(value="superheros", allEntries=true)
 	@Override
 	public Superhero update(Superhero superhero) {
 		Superhero superheroFound = this.superheroRepository.findById(superhero.getId());
@@ -47,6 +52,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 		return this.superheroRepository.update(superhero);
 	}
 
+	@CacheEvict(value="superheros", allEntries=true)
 	@Override
 	public Superhero removeById(int id) {
 		Superhero superheroFound = getById(id);

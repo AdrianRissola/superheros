@@ -32,7 +32,7 @@ public class SuperheroRestController {
 	@GetMapping("/superheros")
 	@ResponseStatus(HttpStatus.OK)
 	@TimeTraceable
-	public List<Superhero> getSuperherosByName(@RequestParam(required = false) String name){
+	public List<Superhero> getSuperheros(@RequestParam(required = false) String name){
 		return (name==null) ? this.superheroService.getAll() : this.superheroService.getByNameContains(name);
 	}
 	

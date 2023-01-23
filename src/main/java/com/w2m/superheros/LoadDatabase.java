@@ -45,7 +45,7 @@ public class LoadDatabase {
 		
 		// Superman
 		List<SuperheroJpaEntity> superheros = new ArrayList<>();
-		for(int i=1 ; i<=100 ; i++) {
+		for(int i=1 ; i<=10000 ; i++) {
 			PowerJpaEntity fly2 = new PowerJpaEntity("fly", i, true);
 			PowerJpaEntity laserEyes2 = new PowerJpaEntity("laser eyes", i, true);
 			SuperheroJpaEntity superman = new SuperheroJpaEntity("Superman", "Clark Kent", false);
