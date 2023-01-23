@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.w2m.superheros.application.model.entities.Superhero;
 import com.w2m.superheros.application.ports.in.SuperheroService;
+import com.w2m.superheros.timetraceable.TimeTraceable;
 
 @RestController
 public class SuperheroRestController {
@@ -30,6 +31,7 @@ public class SuperheroRestController {
      */
 	@GetMapping("/superheros")
 	@ResponseStatus(HttpStatus.OK)
+	@TimeTraceable
 	public List<Superhero> getSuperherosByName(@RequestParam(required = false) String name){
 		return (name==null) ? this.superheroService.getAll() : this.superheroService.getByNameContains(name);
 	}
@@ -40,6 +42,7 @@ public class SuperheroRestController {
      */
 	@GetMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
+	@TimeTraceable
 	public Superhero getSuperheroById(@PathVariable int id){
 		return this.superheroService.getById(id);
 	}
@@ -51,6 +54,7 @@ public class SuperheroRestController {
      */
 	@PutMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
+	@TimeTraceable
 	public Superhero update(@PathVariable int id, @Valid @RequestBody Superhero superhero){
 		superhero.setId(id);
 		return this.superheroService.update(superhero);
@@ -62,6 +66,7 @@ public class SuperheroRestController {
      */
 	@DeleteMapping("/superheros/{id}")
 	@ResponseStatus(HttpStatus.OK)
+	@TimeTraceable
 	public Superhero removeSuperhero(@PathVariable int id){
 		return this.superheroService.removeById(id);
 	}
