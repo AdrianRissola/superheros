@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.w2m.superheros.DummyFactory;
+import com.w2m.superheros.adapters.out.jpa.entities.PowerJpaEntity;
 import com.w2m.superheros.adapters.out.jpa.entities.SuperheroJpaEntity;
+import com.w2m.superheros.application.model.entities.Power;
 import com.w2m.superheros.application.model.entities.Superhero;
 
 class SuperheroPersistenceRespositoryTest {
@@ -108,19 +112,33 @@ class SuperheroPersistenceRespositoryTest {
 	
 	
 	private SuperheroJpaEntity givenSupermanJpaEntity() {
+		List<PowerJpaEntity> powers = new ArrayList<>();
+		PowerJpaEntity laser = new PowerJpaEntity();
+		laser.setName("laser");
+		laser.setIntensity(5);
+		laser.setEnabled(true);
+		powers.add(laser);
 		SuperheroJpaEntity superman = new SuperheroJpaEntity();
 		superman.setId(1);
 		superman.setHumanBeing(false);
 		superman.setName("Superman");
 		superman.setRealFullName("Clark Kent");
+		superman.setPowers(powers);
 		return superman;
 	}
 	
 	private SuperheroJpaEntity givenBatmanJpaEntity() {
+		List<PowerJpaEntity> powers = new ArrayList<>();
+		PowerJpaEntity armor = new PowerJpaEntity();
+		armor.setName("armor");
+		armor.setIntensity(5);
+		armor.setEnabled(true);
+		powers.add(armor);
 		SuperheroJpaEntity batman = new SuperheroJpaEntity();
 		batman.setHumanBeing(true);
 		batman.setName("Batman");
 		batman.setRealFullName("Bruce Wayne");
+		batman.setPowers(powers);
 		return batman;
 	}
 	
@@ -129,12 +147,7 @@ class SuperheroPersistenceRespositoryTest {
 	}
 	
 	private Superhero givenBatman() {
-		Superhero batman = new Superhero();
-		batman.setId(1);
-		batman.setHumanBeing(true);
-		batman.setName("Batman");
-		batman.setRealFullName("Bruce Wayne");
-		return batman;
+		return DummyFactory.getBatman(2);
 	}
 	
 }

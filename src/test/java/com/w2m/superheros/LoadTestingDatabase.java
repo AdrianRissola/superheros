@@ -26,8 +26,6 @@ public class LoadTestingDatabase {
 		PowerJpaEntity nightVision = new PowerJpaEntity("Night-Vision", 50, true);
 		PowerJpaEntity webSlinging = new PowerJpaEntity("Web-Slinging", 50, true);
 		SuperheroJpaEntity spiderman = new SuperheroJpaEntity("Spiderman", "Peter Parker", true);
-		nightVision.setSuperhero(spiderman);
-		webSlinging.setSuperhero(spiderman);
 		List<PowerJpaEntity> spidermanPowers = new ArrayList<PowerJpaEntity>();
 		spidermanPowers.add(nightVision);
 		spidermanPowers.add(webSlinging);

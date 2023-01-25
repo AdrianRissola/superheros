@@ -20,4 +20,13 @@ public class Utils {
 		return list==null || list.isEmpty();
 	}
 
+	public static void validateNullOrBlank(RuntimeException runtimeException, String ... strings) {
+		for(String string : strings) {
+			if(string==null || string.isBlank())
+				throw runtimeException;
+		}
+		
+		
+	}
+
 }

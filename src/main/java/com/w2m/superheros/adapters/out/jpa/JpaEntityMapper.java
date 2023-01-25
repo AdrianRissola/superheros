@@ -23,9 +23,9 @@ public class JpaEntityMapper {
 	public static Superhero fromJpaEntity(SuperheroJpaEntity superheroJpaEntity) {
 		Superhero superhero = null;
 		if(superheroJpaEntity!=null) {
-			superhero = new Superhero();
-			BeanUtils.copyProperties(superheroJpaEntity, superhero);
-			superhero.setPowers(fromPowerJpaEntities(superheroJpaEntity.getPowers()));
+			superhero = new Superhero.Builder(superheroJpaEntity.getName(), 
+					superheroJpaEntity.getRealFullName(), superheroJpaEntity.isHumanBeing(), 
+					fromPowerJpaEntities(superheroJpaEntity.getPowers())).withId(superheroJpaEntity.getId()).build();
 		}
 		return superhero;
 	}
@@ -37,8 +37,8 @@ public class JpaEntityMapper {
 	}
 
 	private static Power fromJpaEntity(PowerJpaEntity powerJpaEntity) {
-		Power power = new Power();
-		BeanUtils.copyProperties(powerJpaEntity, power);
+		Power power = new Power.Builder(powerJpaEntity.getName(), powerJpaEntity.getIntensity(),
+				powerJpaEntity.isEnabled()).withId(powerJpaEntity.getId()).build();
 		return power;
 	}
 
@@ -60,9 +60,5 @@ public class JpaEntityMapper {
 		BeanUtils.copyProperties(power, powerJpaEntity);
 		return powerJpaEntity;
 	}
-
-
-
-
 
 }

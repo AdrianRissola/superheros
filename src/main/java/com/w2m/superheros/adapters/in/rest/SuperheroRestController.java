@@ -101,9 +101,10 @@ public class SuperheroRestController {
 					type = "SuperheroDto",
     			    value = "superhero",
     			    required = true)
-			@Valid @RequestBody Superhero superhero){
-		superhero.setId(id);
-		return this.superheroService.update(superhero);
+			@Valid @RequestBody Superhero superhero){ 
+		return this.superheroService.update(new Superhero.Builder(
+    			superhero.getName(), superhero.getRealFullName(),
+    			superhero.isHumanBeing(), superhero.getPowers()).withId(id).build());
 	}
 	
 	/**

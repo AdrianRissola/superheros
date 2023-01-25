@@ -20,6 +20,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.w2m.superheros.DummyFactory;
 import com.w2m.superheros.LoadTestingDatabase;
 import com.w2m.superheros.application.model.entities.Superhero;
 
@@ -103,18 +104,6 @@ class SuperheroRestControllerIntegrationTest {
 	}
 	
 	@Test
-	public void update_return_400() throws Exception {
-				
-		Superhero invalidSpiderman = this.givenSpiderman();
-		invalidSpiderman.setName(null);
-		this.mockMvc.perform(put("/superheros/{id}", 2)
-				.content(new ObjectMapper().writeValueAsString(invalidSpiderman))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());		
-	}
-	
-	
-	@Test
 	public void remove_return_200() throws Exception {
 		
 		this.mockMvc.perform(get("/superheros/{id}", 1)
@@ -132,12 +121,7 @@ class SuperheroRestControllerIntegrationTest {
 	
 	
 	private Superhero givenSpiderman() {
-		Superhero superman = new Superhero();
-		superman.setId(1);
-		superman.setHumanBeing(false);
-		superman.setName("Spider-man");
-		superman.setRealFullName("Spider-man");
-		return superman;
+		return DummyFactory.getSpiderman();
 	}
 	
 

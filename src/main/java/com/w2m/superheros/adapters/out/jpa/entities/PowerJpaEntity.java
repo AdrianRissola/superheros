@@ -60,12 +60,4 @@ public class PowerJpaEntity {
 		this.isEnabled = isEnabled;
 	}
 
-//	public SuperheroJpaEntity getSuperhero() {
-//		return superhero;
-//	}
-//
-//	public void setSuperhero(SuperheroJpaEntity superhero) {
-//		this.superhero = superhero;
-//	}
-
 }

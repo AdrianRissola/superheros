@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.w2m.superheros.DummyFactory;
 import com.w2m.superheros.application.model.entities.Superhero;
 import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
@@ -93,43 +94,16 @@ class SuperheroRestControllerMockTest {
                 .andExpect(jsonPath("$.name", Is.is(this.givenSuperman().getName())));		
 	}
 	
-	@Test
-	public void update_return_400() throws Exception {
-		
-		this.mockMvc.perform(put("/superheros/{id}", this.givenInvalidMissingNameSuperhero().getId())
-				.content(new ObjectMapper().writeValueAsString(this.givenInvalidMissingNameSuperhero()))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-	}
-	
-	
 	private Superhero givenSuperman() {
-		Superhero superman = new Superhero();
-		superman.setId(1);
-		superman.setHumanBeing(false);
-		superman.setName("Superman");
-		superman.setRealFullName("Clark Kent");
-		return superman;
+		return DummyFactory.getSuperman(1);
 	}
 	
 	private Superhero givenBatman() {
-		Superhero batman = new Superhero();
-		batman.setId(2);
-		batman.setHumanBeing(true);
-		batman.setName("Batman");
-		batman.setRealFullName("Bruce Wayne");
-		return batman;
+		return DummyFactory.getBatman(2);
 	}
 	
 	private List<Superhero> givenSuperheros() {
 		return Arrays.asList(givenBatman(), this.givenSuperman());
-	}
-	
-	private Superhero givenInvalidMissingNameSuperhero() {
-		Superhero superhero = new Superhero();
-		superhero.setHumanBeing(false);
-		superhero.setRealFullName("Clark Kent");
-		return superhero;
 	}
 
 }

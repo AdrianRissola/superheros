@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.w2m.superheros.DummyFactory;
 import com.w2m.superheros.application.model.entities.Superhero;
 import com.w2m.superheros.application.model.service.SuperheroServiceImpl;
 import com.w2m.superheros.application.ports.in.SuperheroService;
@@ -50,26 +51,8 @@ class SuperheroRestControllerStandaloneMockTest {
                 .andExpect(jsonPath("$[1].name", Is.is(this.givenSuperheros().get(1).getName())));
 	}
 	
-	
-	private Superhero givenSuperman() {
-		Superhero superman = new Superhero();
-		superman.setId(1);
-		superman.setHumanBeing(false);
-		superman.setName("Superman");
-		superman.setRealFullName("Clark Kent");
-		return superman;
-	}
-	
-	private Superhero givenBatman() {
-		Superhero batman = new Superhero();
-		batman.setHumanBeing(true);
-		batman.setName("Batman");
-		batman.setRealFullName("Bruce Wayne");
-		return batman;
-	}
-	
 	private List<Superhero> givenSuperheros() {
-		return Arrays.asList(givenBatman(), this.givenSuperman());
+		return Arrays.asList(DummyFactory.getBatman(2), DummyFactory.getSuperman(1));
 	}
 
 }

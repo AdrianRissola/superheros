@@ -35,8 +35,8 @@ public class SuperheroPersistenceRespository implements SuperheroRepository {
 
 	@Override
 	public Superhero update(Superhero superhero) {
-		SuperheroJpaEntity superheroJpaEntity = this.superheroJpaRepository.save(JpaEntityMapper.toJpaEntity(superhero));
-		return JpaEntityMapper.fromJpaEntity(superheroJpaEntity);
+		SuperheroJpaEntity superheroJpaEntityUpdated = this.superheroJpaRepository.save(JpaEntityMapper.toJpaEntity(superhero));
+		return JpaEntityMapper.fromJpaEntity(superheroJpaEntityUpdated);
 	}
 
 	@Override

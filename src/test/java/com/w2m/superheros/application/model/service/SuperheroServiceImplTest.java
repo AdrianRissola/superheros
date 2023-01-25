@@ -22,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.w2m.superheros.DummyFactory;
 import com.w2m.superheros.application.model.entities.Superhero;
 import com.w2m.superheros.application.model.exceptions.SuperheroException;
 import com.w2m.superheros.application.ports.in.SuperheroService;
@@ -42,7 +43,7 @@ class SuperheroServiceImplTest {
 	
 	
 	@Test
-	void getAll() {
+	void getAll() {		
 		
 		// given
 		List<Superhero> givenSuperheros = this.givenSuperheros();
@@ -180,8 +181,6 @@ class SuperheroServiceImplTest {
 		when(this.superheroRepositoryMock.findById(1)).thenReturn(this.givenSuperman());
 		
 		Superhero supermanRequest = this.givenSuperman();
-		supermanRequest.setId(1);
-		supermanRequest.setRealFullName("Juan Perez");
 		when(this.superheroRepositoryMock.update(supermanRequest)).thenReturn(supermanRequest);
 			
 		// when
@@ -226,24 +225,15 @@ class SuperheroServiceImplTest {
 	
 	
 	private Superhero givenSuperman() {
-		Superhero superman = new Superhero();
-		superman.setId(1);
-		superman.setHumanBeing(false);
-		superman.setName("Superman");
-		superman.setRealFullName("Clark Kent");
-		return superman;
+		return DummyFactory.getSuperman(1);
 	}
 	
 	private Superhero givenBatman() {
-		Superhero batman = new Superhero();
-		batman.setHumanBeing(true);
-		batman.setName("Batman");
-		batman.setRealFullName("Bruce Wayne");
-		return batman;
+		return DummyFactory.getBatman(2);
 	}
 	
 	private List<Superhero> givenSuperheros() {
-		return Arrays.asList(givenBatman(), this.givenSuperman());
+		return Arrays.asList(DummyFactory.getBatman(2), DummyFactory.getSuperman(1));
 	}
 
 }
