@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -24,7 +25,8 @@ public class SuperheroJpaEntity {
 	
 	private boolean isHumanBeing;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="superhero", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "SUPERHERO_JPA_ENTITY_ID")
 	private List<PowerJpaEntity> powers = new ArrayList<PowerJpaEntity>();
 	
 	public SuperheroJpaEntity(){

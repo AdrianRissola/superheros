@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class PowerJpaEntity {
@@ -19,8 +18,6 @@ public class PowerJpaEntity {
 	
 	private boolean isEnabled;
 
-	@ManyToOne
-    private SuperheroJpaEntity superhero;
     
 	public PowerJpaEntity() {
 	}
@@ -63,12 +60,12 @@ public class PowerJpaEntity {
 		this.isEnabled = isEnabled;
 	}
 
-	public SuperheroJpaEntity getSuperhero() {
-		return superhero;
-	}
-
-	public void setSuperhero(SuperheroJpaEntity superhero) {
-		this.superhero = superhero;
-	}
+//	public SuperheroJpaEntity getSuperhero() {
+//		return superhero;
+//	}
+//
+//	public void setSuperhero(SuperheroJpaEntity superhero) {
+//		this.superhero = superhero;
+//	}
 
 }
