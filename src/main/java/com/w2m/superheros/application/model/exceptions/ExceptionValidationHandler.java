@@ -24,11 +24,11 @@ public class ExceptionValidationHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public Map<String, String> processValidationError(MethodArgumentNotValidException methodArgumentNotValidException) {
-		Map<String, String> errors = new HashMap<String, String>();
-		Map<String, String> messages = new HashMap<String, String>();
+		var errors = new HashMap<String, String>();
+		var messages = new HashMap<String, String>();
 		methodArgumentNotValidException.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String errorMessage = error.getDefaultMessage();
+			var fieldName = ((FieldError) error).getField();
+			var errorMessage = error.getDefaultMessage();
 			errors.put(fieldName, errorMessage);
 		});
 		logger.error("Cause: {}", errors.toString());
@@ -37,10 +37,18 @@ public class ExceptionValidationHandler {
 	}
 	
 	@ExceptionHandler(SuperheroException.class)
-	@ResponseBody
 	public final ResponseEntity<String> handleSuperheroManagerException(SuperheroException superheroException) {
 		logger.error("Cause: {}", superheroException.getMessage());
 		return new ResponseEntity<String>(superheroException.getMessage(), superheroException.getHttpStatus());
+	}
+	
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public final String handleException(Exception exception) {
+		logger.error("Cause: {}", exception.getMessage());
+		return exception.getMessage();
 	}
 
 }
