@@ -15,10 +15,10 @@ public class TimeTraceableAspect {
  
     @Around("@annotation(TimeTraceable)")
     public Object trace(ProceedingJoinPoint joinPoint) throws Throwable {
-        long initialTimeMillis =  System.currentTimeMillis();
-        String shortSignature = joinPoint.getSignature().toShortString();
-        StringBuilder args = new StringBuilder();
-        for(Object arg : joinPoint.getArgs())
+    	var initialTimeMillis =  System.currentTimeMillis();
+    	var shortSignature = joinPoint.getSignature().toShortString();
+    	var args = new StringBuilder();
+        for(var arg : joinPoint.getArgs())
         	args.append(arg!=null?new StringBuilder(arg.toString()).append(","):"");
         Object result = null;
         try {

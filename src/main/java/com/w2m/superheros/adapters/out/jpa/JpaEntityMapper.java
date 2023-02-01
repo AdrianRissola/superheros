@@ -15,7 +15,7 @@ public class JpaEntityMapper {
 
 
 	public static List<Superhero> fromSuperheroJpaEntities(List<SuperheroJpaEntity> superheroJpaEntities) {
-		List<Superhero> superheros = new ArrayList<>();
+		var superheros = new ArrayList<Superhero>();
 		superheroJpaEntities.stream().forEach(superheroJpaEntity -> superheros.add(fromJpaEntity(superheroJpaEntity)));
 		return superheros;
 	}
@@ -31,32 +31,32 @@ public class JpaEntityMapper {
 	}
 
 	private static List<Power> fromPowerJpaEntities(List<PowerJpaEntity> powerJpaEntities) {
-		List<Power> powers = new ArrayList<>();
+		var powers = new ArrayList<Power>();
 		powerJpaEntities.stream().forEach(powerJpaEntity -> powers.add(fromJpaEntity(powerJpaEntity)));
 		return powers;
 	}
 
 	private static Power fromJpaEntity(PowerJpaEntity powerJpaEntity) {
-		Power power = new Power.Builder(powerJpaEntity.getName(), powerJpaEntity.getIntensity(),
+		var power = new Power.Builder(powerJpaEntity.getName(), powerJpaEntity.getIntensity(),
 				powerJpaEntity.isEnabled()).withId(powerJpaEntity.getId()).build();
 		return power;
 	}
 
 	public static SuperheroJpaEntity toJpaEntity(Superhero superhero) {
-		SuperheroJpaEntity superheroJpaEntity = new SuperheroJpaEntity();
+		var superheroJpaEntity = new SuperheroJpaEntity();
 		BeanUtils.copyProperties(superhero, superheroJpaEntity);
 		superheroJpaEntity.setPowers(toJpaEntities(superhero.getPowers()));
 		return superheroJpaEntity;
 	}
 
 	private static List<PowerJpaEntity> toJpaEntities(List<Power> powers) {
-		List<PowerJpaEntity> powerJpaEntities = new ArrayList<>();
+		var powerJpaEntities = new ArrayList<PowerJpaEntity>();
 		powers.stream().forEach(power -> powerJpaEntities.add(toJpaEntity(power)));
 		return powerJpaEntities;
 	}
 
 	private static PowerJpaEntity toJpaEntity(Power power) {
-		PowerJpaEntity powerJpaEntity = new PowerJpaEntity();
+		var powerJpaEntity = new PowerJpaEntity();
 		BeanUtils.copyProperties(power, powerJpaEntity);
 		return powerJpaEntity;
 	}

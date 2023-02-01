@@ -30,7 +30,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Cacheable(value = "superheros")
 	@Override
 	public List<Superhero> getByNameContains(String name) {
-		List<Superhero> superheros = this.superheroRepository.findByNameContains(name.strip());
+		var superheros = this.superheroRepository.findByNameContains(name.strip());
 		Utils.validateIsNullOrEmpty(superheros,
 				new SuperheroException(ErrorMessage.SUPERHEROS_NOT_FOUND_BY_NAME, HttpStatus.NOT_FOUND));
 		return superheros;
@@ -38,7 +38,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 
 	@Override
 	public Superhero getById(int id) {
-		Superhero superheroFound = this.superheroRepository.findById(id);
+		var superheroFound = this.superheroRepository.findById(id);
 		Utils.validateIsNull(superheroFound,
 				new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND));
 		return superheroFound;
@@ -47,7 +47,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@CacheEvict(value="superheros", allEntries=true)
 	@Override
 	public Superhero update(Superhero superhero) {
-		Superhero superheroFound = this.superheroRepository.findById(superhero.getId());
+		var superheroFound = this.superheroRepository.findById(superhero.getId());
 		Utils.validateIsNull(superheroFound,
 				new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND));
 		return this.superheroRepository.update(superhero);
@@ -56,7 +56,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@CacheEvict(value="superheros", allEntries=true)
 	@Override
 	public Superhero removeById(int id) {
-		Superhero superheroFound = getById(id);
+		var superheroFound = getById(id);
 		Utils.validateIsNull(superheroFound,
 				new SuperheroException(ErrorMessage.SUPERHERO_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND));
 		return this.superheroRepository.delete(superheroFound);

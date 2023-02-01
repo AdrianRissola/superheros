@@ -24,28 +24,28 @@ public class LoadDatabase {
 	CommandLineRunner initDatabase(SuperheroJpaRepository superheroRepository) {
 		
 		// Ironman
-		PowerJpaEntity fly = new PowerJpaEntity("fly", 50, true);
-		PowerJpaEntity laser = new PowerJpaEntity("laser", 50, true);
-		SuperheroJpaEntity ironman = new SuperheroJpaEntity("Ironman", "Tony Stark ", true);
-		List<PowerJpaEntity> ironmanPowers = new ArrayList<PowerJpaEntity>();
+		var fly = new PowerJpaEntity("fly", 50, true);
+		var laser = new PowerJpaEntity("laser", 50, true);
+		var ironman = new SuperheroJpaEntity("Ironman", "Tony Stark ", true);
+		var ironmanPowers = new ArrayList<PowerJpaEntity>();
 		ironmanPowers.add(fly);
 		ironmanPowers.add(laser);
 		ironman.setPowers(ironmanPowers);
 		
 		// Spiderman
-		PowerJpaEntity jump = new PowerJpaEntity("super jump", 50, true);
-		SuperheroJpaEntity spiderman = new SuperheroJpaEntity("Spiderman", "Peter Parker", true);
-		List<PowerJpaEntity> spidermanPowers = new ArrayList<PowerJpaEntity>();
+		var jump = new PowerJpaEntity("super jump", 50, true);
+		var spiderman = new SuperheroJpaEntity("Spiderman", "Peter Parker", true);
+		var spidermanPowers = new ArrayList<PowerJpaEntity>();
 		spidermanPowers.add(jump);
 		spiderman.setPowers(spidermanPowers);
 		
 		// Superman
-		List<SuperheroJpaEntity> superheros = new ArrayList<>();
-		for(int i=1 ; i<=10000 ; i++) {
-			PowerJpaEntity fly2 = new PowerJpaEntity("fly", i, true);
-			PowerJpaEntity laserEyes2 = new PowerJpaEntity("laser eyes", i, true);
-			SuperheroJpaEntity superman = new SuperheroJpaEntity("Superman", "Clark Kent", false);
-			List<PowerJpaEntity> supermanPowers2 = new ArrayList<PowerJpaEntity>();
+		var superheros = new ArrayList<SuperheroJpaEntity>();
+		for(var i=1 ; i<=10000 ; i++) {
+			var fly2 = new PowerJpaEntity("fly", i, true);
+			var laserEyes2 = new PowerJpaEntity("laser eyes", i, true);
+			var superman = new SuperheroJpaEntity("Superman", "Clark Kent", false);
+			var supermanPowers2 = new ArrayList<PowerJpaEntity>();
 			supermanPowers2.add(fly2);
 			supermanPowers2.add(laserEyes2);
 			superman.setPowers(supermanPowers2);

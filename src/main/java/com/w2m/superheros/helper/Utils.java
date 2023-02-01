@@ -21,7 +21,7 @@ public class Utils {
 	}
 
 	public static void validateNullOrBlank(RuntimeException runtimeException, String ... strings) {
-		for(String string : strings) {
+		for(var string : strings) {
 			if(string==null || string.isBlank())
 				throw runtimeException;
 		}

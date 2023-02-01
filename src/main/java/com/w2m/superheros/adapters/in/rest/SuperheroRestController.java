@@ -55,6 +55,7 @@ public class SuperheroRestController {
 	/**
      * @param id: superhero id
      * @return Superhero
+	 * @throws Throwable 
      */
     @ApiOperation(value = "Get superhero by id", notes = "This method finds a superhero by id")
     @ApiResponses({
@@ -71,7 +72,7 @@ public class SuperheroRestController {
     			    value = "superhero id",
     			    example = "1",
     			    required = true)
-			@PathVariable int id){
+			@PathVariable int id) {
 		return this.superheroService.getById(id);
 	}
 	
@@ -110,6 +111,7 @@ public class SuperheroRestController {
 	/**
      * @param id: superhero id
      * @return Superhero
+	 * @throws Throwable 
      */
     @ApiOperation(value = "Remove superhero by id", notes = "This method removes a superhero by id")
     @ApiResponses({
@@ -126,7 +128,7 @@ public class SuperheroRestController {
     			    value = "superhero id",
     			    example = "1",
     			    required = true)
-			@PathVariable int id){
+			@PathVariable int id) {
 		return this.superheroService.removeById(id);
 	}
 }
